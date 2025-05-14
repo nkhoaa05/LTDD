@@ -1,0 +1,31 @@
+# Ignore Gradle build output
+/build/
+/.gradle/
+/local.properties
+
+# Ignore build outputs in module
+**/build/
+**/captures/
+
+# Ignore IDE config files
+.idea/
+*.iml
+
+# Ignore OS/system files
+.DS_Store
+Thumbs.db
+
+# Ignore Kotlin/Java compilation files
+*.class
+
+# Ignore logs
+*.log
+
+# Optional: Ignore signing info (if any)
+app/keystore.jks
+*.jks
+*.keystore
+
+# Optional: Ignore crashlytics or analytics configs (if added)
+fabric.properties
+crashlytics.properties
