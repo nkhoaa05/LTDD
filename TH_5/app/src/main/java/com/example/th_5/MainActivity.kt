@@ -1,17 +1,14 @@
 package com.example.th_5
 
 import android.os.Bundle
-import android.widget.Space
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.ColorRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,14 +24,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.th_5.R.*
 import com.example.th_5.ui.theme.TH_5Theme
+import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +49,10 @@ class MainActivity : ComponentActivity() {
 
 @Preview(showBackground = true)
 @Composable
-fun ProductCard() {
+fun ProductCard(viewModel: ProductViewModel = viewModel()) {
+    val productState = viewModel.product.collectAsState()
+    val product = productState.value
+
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -66,7 +68,7 @@ fun ProductCard() {
         ) {
 
             Image(
-                painter = painterResource(R.drawable.back_icon),
+                painter = painterResource(drawable.back_icon),
                 contentDescription = "back",
                 modifier = Modifier
                     .size(40.dp)
@@ -83,17 +85,20 @@ fun ProductCard() {
             )
         }
 
+        if (product == null){
+            Text("Loading...")
+            return
+        }
 
         Spacer(modifier = Modifier.height(50.dp))
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                painter = painterResource(R.drawable.image),
+            AsyncImage(
+                model = "$product.imgUrl",
                 contentDescription = "product",
-                modifier = Modifier
-                    .size(350.dp)
+                modifier = Modifier.size(350.dp)
             )
 
             Spacer(modifier = Modifier.height(15.dp))
@@ -101,18 +106,21 @@ fun ProductCard() {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 20 .dp),
+                    .padding(start = 20.dp),
                 horizontalAlignment = Alignment.Start
             ) {
-                Text("Product Name",
+                Text(
+                    product.name,
                     fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold)
+                    fontWeight = FontWeight.Bold
+                )
                 Spacer(modifier = Modifier.height(20.dp))
-                Text("Price",
+                Text(
+                    text = "Giá: " + product.price.toString() + "đ",
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Red
-                    )
+                )
             }
             Spacer(modifier = Modifier.height(10.dp))
 
@@ -127,10 +135,8 @@ fun ProductCard() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = " Với giày chạy bộ, từng gram đều quan trọng. Đó là lý do tại sao đế giữa LIGHTSTRIKE PRO mới nhẹ hơn so với phiên bản trước. " +
-                            "Mút foam đế giữa siêu nhẹ và thoải mái này có lớp đệm đàn hồi được thiết kế để hạn chế tiêu hao năng lượng. " +
-                            "Trong các mẫu giày tập luyện, công nghệ này được thiết kế nhằm hỗ trợ cơ bắp của vận động viên để họ có thể phục hồi nhanh hơn giữa các cuộc đua.",
-                    fontSize = 14.sp
+                    product.des,
+                    fontSize = 16.sp
                 )
             }
 
