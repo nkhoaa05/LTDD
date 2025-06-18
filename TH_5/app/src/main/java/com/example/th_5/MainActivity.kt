@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import com.example.th_5.R.*
 import com.example.th_5.ui.theme.TH_5Theme
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.layout.ContentScale
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 
@@ -93,12 +94,14 @@ fun ProductCard(viewModel: ProductViewModel = viewModel()) {
         Spacer(modifier = Modifier.height(50.dp))
 
         Column(
+            modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AsyncImage(
-                model = "$product.imgUrl",
+                model = product.imgURL,
                 contentDescription = "product",
-                modifier = Modifier.size(350.dp)
+                contentScale = ContentScale.Fit,
+                modifier = Modifier.size(400.dp)
             )
 
             Spacer(modifier = Modifier.height(15.dp))
