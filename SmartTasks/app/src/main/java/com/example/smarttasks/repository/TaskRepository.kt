@@ -18,20 +18,6 @@ class TaskRepositoryImpl : TaskRepository {
 
     private val apiService = RetrofitClient.apiService
 
-//    override fun getAllTasks(): Flow<List<Task>> = flow {
-//        try {
-//            val response = apiService.getAllTasks()
-//            if (response.isSuccess) {
-//                emit(response.data)
-//            } else {
-//                emit(emptyList()) // hoặc throw Exception(response.message)
-//            }
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//            emit(emptyList())
-//        }
-//    }
-
     override fun getAllTasks(): Flow<List<Task>> = flow {
         try {
             val response = apiService.getAllTasks()
